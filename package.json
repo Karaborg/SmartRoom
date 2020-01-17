@@ -1,0 +1,26 @@
+{
+  "name": "smartroom",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "async": "latest",
+    "bluebird": "latest",
+    "body-parser": "^1.18.2",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "~4.16.1",
+    "fs": "0.0.1-security",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "jquery": "^3.3.1",
+    "mongoose": "^5.7.3",
+    "mongoose-cache": "latest",
+    "morgan": "~1.9.1",
+    "qjuery": "^1.0.0",
+    "rpi-gpio": "latest"
+  }
+}

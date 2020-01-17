@@ -1,0 +1,97 @@
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title#header Header
+    link(rel='stylesheet', href='/stylesheets/mycss.css')
+    //toaster
+    link(rel='stylesheet', href='/toastr/build/toastr.css')
+    // Tell the browser to be responsive to screen width
+    meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
+
+    center
+      body
+        .background
+          .container
+            .screen
+              h2.title#title Title
+              .screen
+                div.channel
+                  div.subChannel
+                    h3.subtitle#slot1 #1 Slot
+                  div.subChannel
+                    label.switch
+                      input#checkbox1(type='checkbox', onclick='switchClick("slot1")')
+                      span.slider.round
+                div.channel
+                  div.subChannel
+                    h3.subtitle#slot2 #2 Slot
+                  div.subChannel
+                    label.switch
+                      input#checkbox2(type='checkbox', onclick='switchClick("slot2")')
+                      span.slider.round
+                div.channel
+                  div.subChannel
+                    h3.subtitle#slot3 #3 Slot
+                  div.subChannel
+                    label.switch2
+                      input#checkbox3(type='checkbox', onclick='switchClick("slot3")')
+                      span.slider.round      
+                div.channel
+                  div.subChannel
+                    h3.subtitle#slot4 #4 Slot
+                  div.subChannel
+                    label.switch
+                      input#checkbox4(type='checkbox', onclick='switchClick("slot4")')
+                      span.slider.round
+                div.channel
+                  button.button#btn Connection Test   
+    //jquery
+    script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    //toaster
+    script(src='toastr/toastr.js')
+    script.
+      function switchClick(slot) {
+        var data = {
+          switchName: slot
+        };
+        $.post('/switch', data)
+                  .done(function (returnValue) {
+                    if(returnValue){
+                      
+                    }else{
+                      toastr.warning("Connection Lost");
+                    }
+                  })
+      }
+      $.post('/getNames')
+                  .done(function (returnValue) {
+                    if(returnValue){
+                      document.getElementById('header').innerHTML = returnValue[0];
+                      document.getElementById('title').innerHTML = returnValue[1];
+                      document.getElementById('slot1').innerHTML = returnValue[2];
+                      document.getElementById('slot2').innerHTML = returnValue[3];
+                      document.getElementById('slot3').innerHTML = returnValue[4];
+                      document.getElementById('slot4').innerHTML = returnValue[5];
+                    }
+                  })
+      $.post('/setup')
+                  .done(function (returnValue) {
+                    if(returnValue){
+                      for(let i = 0; i < returnValue.length; i++){
+                        var number = returnValue[i].replace("slot", "");
+                        document.getElementById('checkbox' + number).checked = true;
+                      }
+                    }
+                  })             
+      $('#btn').click(function (e) {
+        e.preventDefault();
+        $.post('/connection')
+                  .done(function (returnValue) {
+                    if(returnValue){
+                      toastr.info("Success");
+                    }else{
+                      toastr.warning("Cannot Connect Database");
+                    }
+                  })  
+      })
